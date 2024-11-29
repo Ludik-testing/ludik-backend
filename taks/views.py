@@ -1,8 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django.core.cache import cache
 from .models import Task
 from .serializers import TaskSerializer
+
 
 class TaskViewSet(ModelViewSet):
     queryset = Task.objects.all().order_by('-created_at')
@@ -33,4 +35,5 @@ class TaskViewSet(ModelViewSet):
             return super().get_object()
         except Task.DoesNotExist:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+    
 
